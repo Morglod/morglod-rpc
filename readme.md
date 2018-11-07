@@ -2,6 +2,8 @@
 
 Simple OOP rpc with remote callback support.
 
+!! Install by `--save-exact`, coz still in development.
+
 ## Example
 
 Server:
@@ -28,13 +30,24 @@ server.on('connection', socket => {
 });
 ```
 
+Protocol:
+```ts
+type ApiDef = {
+    readFile: (path: string, resolve: (data: string) => void) => void,
+};
+```
+
 Client:
 ```ts
 const socket = SocketIO.connect(httpBind);
 const transport = new SocketIOTransport(socket);
-const api = new Api({ methods: {} }, transport);
+const api = new Api<ApiDef, {}>({}, transport);
 
 api.callMethod('readFile', 'file.txt', (fileData: string) => {
     console.log('yeyy!', fileData);
 });
 ```
+
+# TODO
+
+Add middlewares and pre-call hooks

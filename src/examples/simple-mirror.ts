@@ -2,8 +2,8 @@ import * as SocketIOServer from 'socket.io';
 import * as SocketIOClient from 'socket.io-client';
 import * as http from 'http';
 
-import { Api } from './index';
-import { SocketIOTransport } from './socket.io.transport';
+import { Api } from '../index';
+import { SocketIOTransport } from '../socket.io.transport';
 
 const PORT = 9090;
 const httpBind = `http://localhost:${PORT}/`;
@@ -14,16 +14,8 @@ const exampleMethods = {
     sub: (a: number, b: number) => a - b,
     print: (text: string) => console.log(text),
 
-    /** async and buffer return */
-    // fetch: async (url: string) => {
-    //     const res = await fetch(url);
-    //     const buffer = await res.arrayBuffer();
-    //     return buffer;
-    // },
-
     /** callbacks */
     cbSum: (a: number, b: number, resolve: Function) => resolve(a + b)
-    // readFile: (file: string, callback: Function) => fs.readFile(file, callback),
 };
 
 function exampleServer() {
@@ -36,7 +28,7 @@ function exampleServer() {
         const transport = new SocketIOTransport(socket);
 
         const exampleApi = new Api({
-            methods: exampleMethods
+            selfMethods: exampleMethods
         }, transport);
     });
 
@@ -49,8 +41,8 @@ function exampleClient() {
     setTimeout(async () => {
         const transport = new SocketIOTransport(socket);
     
-        const exampleApi = new Api({
-            methods: exampleMethods
+        const exampleApi = new Api<typeof exampleMethods, typeof exampleMethods>({
+            selfMethods: exampleMethods
         }, transport);
     
         console.log('client ready');
