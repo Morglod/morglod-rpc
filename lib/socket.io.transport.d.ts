@@ -15,7 +15,7 @@ export declare class SocketIOTransport implements ITransport {
     setRequestHandler(handler: ITransportRequestHandler): void;
     private requestHandler;
     readonly socket: SocketIOSocket;
-    readonly eventName: string;
+    eventName: string;
     private readonly pending;
     private uuid;
 }
