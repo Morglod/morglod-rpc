@@ -54,7 +54,7 @@ export class SocketIOTransport implements ITransport {
 
     private requestHandler!: ITransportRequestHandler;
     readonly socket: SocketIOSocket;
-    readonly eventName = TransportEventName;
+    eventName: string = TransportEventName;
 
     private readonly pending: { [key: string]: SocketIOTransportProtocolHandler } = {};
     private uuid: number = 0;
